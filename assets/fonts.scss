@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'Poiret';
+    src: local('Poiret One'),
+        url('@/static/fonts/Poiret/PoiretOne-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: local('Montserrat Alternates'),
+        url('@/static/fonts/Montserrat/MontserratAlternates-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: local('Montserrat Alternates'),
+        url('@/static/fonts/Montserrat/MontserratAlternates-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: local('Montserrat Alternates'),
+        url('@/static/fonts/Montserrat/MontserratAlternates-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}

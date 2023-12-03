@@ -1,0 +1,19 @@
+// phone media
+// @mixin desc {
+//     @media screen and (min-width: 320px) {
+//         @content;
+//     }
+// }
+// desctop media
+@mixin desc {
+    @media screen and (min-width: 1200px) {
+        @content;
+    }
+}
+
+// hover media
+@mixin hover {
+    @media screen and (hover: hover) {
+        @content;
+    }
+}
