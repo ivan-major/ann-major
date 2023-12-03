@@ -18,7 +18,12 @@
                 <div class="contacts__form form">
                     <div class="text-p1 form__title">Напишіть мені</div>
 
-                    <form class="form__block" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+                    <form
+                        class="form__block"
+                        name="contact"
+                        method="POST"
+                        data-netlify="true"
+                    >
                         <div class="form__input">
                             <input
                                 name="name"
