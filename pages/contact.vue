@@ -22,7 +22,7 @@
                         class="form__block"
                         name="contact"
                         method="POST"
-                        data-netlify="true"
+                        netlify
                     >
                         <div class="form__input">
                             <input
