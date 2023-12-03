@@ -163,15 +163,41 @@ const form = reactive({
     },
 })
 
+const isInFocus = ref({
+    email: false,
+    name: false,
+    phone: false,
+})
+
+const isValidInput = ref({
+    email: true,
+    name: true,
+    phone: true,
+})
+
+const isValidForm = computed(() => {
+    return (
+        isValidInput.value.email &&
+        isValidInput.value.name &&
+        isValidInput.value.phone &&
+        form.email.value &&
+        form.name.value &&
+        form.phone.value
+    )
+})
+
 const placeholderRemove = (event) => {
     switch (event.target.name) {
         case "name":
+            isInFocus.value.name = true
             form.name.placeholder = ""
             break
         case "phone":
+            isInFocus.value.phone = true
             form.phone.placeholder = ""
             break
         case "email":
+            isInFocus.value.email = true
             form.email.placeholder = ""
             break
         case "message":
@@ -183,18 +209,51 @@ const placeholderRemove = (event) => {
 const placeholderPut = (event) => {
     switch (event.target.name) {
         case "name":
-            form.name.placeholder = "Ім'я"
+            if (form.name.value === "") {
+                isInFocus.value.name = false
+                form.name.placeholder = "Email"
+            }
+
+            isValidInput.value.name = nameValidator(form.name.value)
             break
         case "phone":
-            form.phone.placeholder = "Телефон"
+            if (form.phone.value === "") {
+                isInFocus.value.phone = false
+                form.phone.placeholder = "Телефон"
+            }
+
+            isValidInput.value.phone = phoneValidator(form.phone.value)
             break
         case "email":
-            form.email.placeholder = "Email"
+            if (form.email.value === "") {
+                isInFocus.value.email = false
+                form.email.placeholder = "Email"
+            }
+
+            isValidInput.value.email = emailValidator(form.email.value)
             break
         case "message":
             form.message.placeholder = "Повідомлення"
             break
     }
+}
+
+const emailValidator = (value) => {
+    return !value
+        ? true
+        : /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+              value
+          )
+}
+
+const nameValidator = (value) => {
+    return !value ? true : value.length >= 2
+}
+
+const phoneValidator = (value) => {
+    return !value
+        ? true
+        : /^(\+380[0-9]{9})$/.test(value) || /^0[0-9]{9}$/.test(value)
 }
 
 const onSubmit = (event) => {
@@ -211,19 +270,19 @@ const onSubmit = (event) => {
         )
         .join("&")
 
-    axios.post(
-        "/",
-        body,
-        {
+    axios
+        .post("/", body, {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        }).then((response) => {
+        })
+        .then((response) => {
             isFormSubmit.value = true
             isSuccessful.value = true
-        }).catch((error) => {
+        })
+        .catch((error) => {
             isFormSubmit.value = true
             isSuccessful.value = false
         })
-    
+
     isLoading.value = false
 }
 
