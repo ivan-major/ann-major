@@ -1,6 +1,6 @@
 <template>
     <header
-        :class="pageName === 'home' ? 'header' : `header header__background`"
+        :class="pageName === 'index' ? 'header' : `header header__background`"
     >
         <Logo />
         <MenuBar @click="onToggleMenu" />

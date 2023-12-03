@@ -30,6 +30,8 @@ const onCloseMenu = () => {
 }
 
 const route = useRoute()
+
+console.log(route.name)
 </script>
 
 <style lang="scss">
