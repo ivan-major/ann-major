@@ -103,7 +103,7 @@
 </template>
 <script setup>
 import { ref, reactive } from "vue"
-import axios from "axios"
+
 import ContactItem from "../components/ContactItem.vue"
 import FormConfirmPopup from "../components/FormConfirmPopup.vue"
 
@@ -270,15 +270,16 @@ const onSubmit = (event) => {
         )
         .join("&")
 
-    axios
-        .post("/", body, {
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        })
-        .then((response) => {
+    $fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
+    })
+        .then(() => {
             isFormSubmit.value = true
             isSuccessful.value = true
         })
-        .catch((error) => {
+        .catch(() => {
             isFormSubmit.value = true
             isSuccessful.value = false
         })

@@ -16,6 +16,7 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@nuxt/modules": "^0.6.0-ad2d27",
     "@nuxtjs/axios": "^5.13.6",
     "axios": "^1.6.2",
     "sass": "^1.69.5",
