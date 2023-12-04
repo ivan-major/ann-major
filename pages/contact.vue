@@ -24,6 +24,7 @@
                         method="POST"
                         data-netlify="true"
                     >
+                        <input type="hidden" name="form-name" value="contact" />
                         <div class="form__input">
                             <input
                                 name="name"
@@ -211,7 +212,7 @@ const placeholderPut = (event) => {
         case "name":
             if (form.name.value === "") {
                 isInFocus.value.name = false
-                form.name.placeholder = "Email"
+                form.name.placeholder = "Im'я"
             }
 
             isValidInput.value.name = nameValidator(form.name.value)
