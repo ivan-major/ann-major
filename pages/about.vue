@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import TalantComponent from "@/components/TalantComponent.vue";
+import { ref, computed } from "vue"
+import TalantComponent from "@/components/TalantComponent.vue"
 
 export default {
     name: "AboutView",
@@ -77,24 +77,24 @@ export default {
                 text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
                 icon: "poetry",
             },
-        ]);
+        ])
 
         const isDesctop = computed(() => {
-            const width = window.innerWidth;
+            const width = process.client ? window.innerWidth : null
 
             if (width > 1200) {
-                return true;
+                return true
             } else {
-                return false;
+                return false
             }
-        });
+        })
 
         return {
             talantsData,
             isDesctop,
-        };
+        }
     },
-};
+}
 </script>
 
 <style lang="scss">

@@ -16,7 +16,7 @@ export default defineNuxtConfig({
       }
     }
   },
-  ssr: false
+  // ssr: false
 
   // modules: ['@nuxtjs/axios'],
 })

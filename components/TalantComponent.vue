@@ -15,24 +15,24 @@
     </div>
 </template>
 <script setup>
-import { defineProps, computed } from "vue";
-import Icon from "./Icon.vue";
+import { defineProps, computed } from "vue"
+import Icon from "./Icon.vue"
 
 const props = defineProps({
     title: String,
     text: String,
     icon: String,
-});
+})
 
 const isDesctop = computed(() => {
-    const width = window.innerWidth;
+    const width = process.client ? window.innerWidth : null
 
     if (width >= 1200) {
-        return true;
+        return true
     } else {
-        return false;
+        return false
     }
-});
+})
 </script>
 <style lang="scss">
 .talant {
@@ -102,7 +102,6 @@ const isDesctop = computed(() => {
             height: 100%;
             transform: translateY(-24px) translateX(-50%);
         }
-
     }
 }
 </style>
