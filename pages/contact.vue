@@ -271,7 +271,7 @@ const onSubmit = (event) => {
         )
         .join("&")
 
-    $fetch("/contact/", {
+    $fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
