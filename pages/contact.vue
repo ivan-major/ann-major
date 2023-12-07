@@ -147,6 +147,9 @@ const isSuccessful = ref(false)
 const isLoading = ref(false)
 
 const form = reactive({
+    'form-name': {
+        value: "contact",
+    },
     name: {
         value: "",
         placeholder: "Ім'я",
@@ -272,16 +275,16 @@ const onSubmit = (event) => {
         )
         .join("&")
 
-    useFetch("/", {
+    $fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
     })
-        .then(() => {
+        .then((res) => {
             isFormSubmit.value = true
             isSuccessful.value = true
         })
-        .catch(() => {
+        .catch((err) => {
             isFormSubmit.value = true
             isSuccessful.value = false
         })
