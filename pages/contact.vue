@@ -23,18 +23,26 @@
                         name="contact"
                         method="POST"
                         data-netlify="true"
-                        netlify-honeypot=“bot-field”
+                        netlify-honeypot="“bot-field”"
                     >
                         <input type="hidden" name="form-name" value="contact" />
+
                         <div class="form__input">
                             <input
                                 name="name"
                                 v-model="form.name.value"
                                 type="text"
+                                :class="`${
+                                    !isValidInput.name ? 'input-error' : ''
+                                }`"
                                 :placeholder="form.name.placeholder"
                                 @focus="placeholderRemove($event)"
                                 @blur="placeholderPut($event)"
                             />
+
+                            <div v-if="!isValidInput.name" class="error">
+                                Кілкьість символів має бути більше 2
+                            </div>
                         </div>
 
                         <div class="form__input">
@@ -42,10 +50,21 @@
                                 name="phone"
                                 v-model="form.phone.value"
                                 type="text"
+                                :class="`${
+                                    !isValidInput.phone ? 'input-error' : ''
+                                }`"
                                 :placeholder="form.phone.placeholder"
                                 @focus="placeholderRemove($event)"
                                 @blur="placeholderPut($event)"
                             />
+
+                            <div
+                                v-if="!isValidInput.phone"
+                                class="error"
+                            >
+                                Невірний формат номеру телефону (приклад:
+                                0991234567)
+                            </div>
                         </div>
 
                         <div class="form__input">
@@ -53,10 +72,20 @@
                                 name="email"
                                 v-model="form.email.value"
                                 type="text"
+                                :class="`${
+                                    !isValidInput.email ? 'input-error' : ''
+                                }`"
                                 :placeholder="form.email.placeholder"
                                 @focus="placeholderRemove($event)"
                                 @blur="placeholderPut($event)"
                             />
+
+                            <div
+                                v-if="!isValidInput.email"
+                                class="error"
+                            >
+                                Невірний формат email (приклад: email@gmail.com)
+                            </div>
                         </div>
 
                         <div class="form__input">
@@ -74,8 +103,12 @@
 
                         <div class="form__button">
                             <button
-                                class="button"
-                                :disabled="isLoading"
+                                :class="`button ${
+                                    isValidForm
+                                        ? 'button__active'
+                                        : 'button__disabled'
+                                }`"
+                                :disabled="!isValidForm"
                                 @click="onSubmit($event)"
                             >
                                 <div class="button__text">Надіслати</div>
@@ -108,6 +141,8 @@ import { ref, reactive } from "vue"
 
 import ContactItem from "../components/ContactItem.vue"
 import FormConfirmPopup from "../components/FormConfirmPopup.vue"
+
+import { emailValidator, nameValidator, phoneValidator } from "@/helpers/formValidators.js"
 
 const contactsData = ref([
     {
@@ -146,25 +181,32 @@ const isFormSubmit = ref(false)
 const isSuccessful = ref(false)
 const isLoading = ref(false)
 
+const FORM_PLACEHOLDER = {
+    NAME: "Ім'я",
+    PHONE: "Телефон",
+    EMAIL: "Email",
+    MESSAGE: "Повідомлення",
+}
+
 const form = reactive({
-    'form-name': {
+    "form-name": {
         value: "contact",
     },
     name: {
-        value: "",
-        placeholder: "Ім'я",
+        value: null,
+        placeholder: FORM_PLACEHOLDER.NAME,
     },
     phone: {
-        value: "",
-        placeholder: "Телефон",
+        value: null,
+        placeholder: FORM_PLACEHOLDER.PHONE
     },
     email: {
-        value: "",
-        placeholder: "Email",
+        value: null,
+        placeholder: FORM_PLACEHOLDER.EMAIL,
     },
     message: {
-        value: "",
-        placeholder: "Повідомлення",
+        value: null,
+        placeholder: FORM_PLACEHOLDER.MESSAGE,
     },
 })
 
@@ -243,24 +285,6 @@ const placeholderPut = (event) => {
     }
 }
 
-const emailValidator = (value) => {
-    return !value
-        ? true
-        : /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-              value
-          )
-}
-
-const nameValidator = (value) => {
-    return !value ? true : value.length >= 2
-}
-
-const phoneValidator = (value) => {
-    return !value
-        ? true
-        : /^(\+380[0-9]{9})$/.test(value) || /^0[0-9]{9}$/.test(value)
-}
-
 const onSubmit = (event) => {
     event.preventDefault()
 
@@ -280,11 +304,11 @@ const onSubmit = (event) => {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
     })
-        .then((res) => {
+        .then(() => {
             isFormSubmit.value = true
             isSuccessful.value = true
         })
-        .catch((err) => {
+        .catch(() => {
             isFormSubmit.value = true
             isSuccessful.value = false
         })
@@ -293,9 +317,11 @@ const onSubmit = (event) => {
 }
 
 const onClose = () => {
+    location.reload()
     isFormSubmit.value = false
 }
 </script>
+
 <style lang="scss">
 .contacts {
     // height: calc(100vh - 110px);
@@ -390,11 +416,29 @@ const onClose = () => {
                 text-transform: uppercase;
             }
         }
+
+        // &-error {
+        //     border: 1px solid $form-error-color;
+
+        //     &:focus {
+        //         border: 1px solid $form-error-color;
+        //     }
+        // }
     }
 
     &__button {
         display: flex;
         justify-content: center;
+    }
+}
+
+.input-error {
+    // border: 2px solid $form-error-color;
+    background: $form-error-color !important;
+
+    &:focus {
+        background: $form-error-color !important;
+        // border: 2px solid $form-error-color;
     }
 }
 
@@ -414,7 +458,15 @@ const onClose = () => {
     font-size: 14px;
     text-transform: uppercase;
     transform: "background" 0.3s ease-in-out;
+    cursor: pointer;
 
+    &__active {
+        opacity: 1;
+    }
+
+    &__disabled {
+        opacity: 0.7;
+    }
     // &::before {
     //     content: "";
     //     position: absolute;
@@ -452,6 +504,13 @@ const onClose = () => {
     &__blue {
         color: $main-color !important;
     }
+}
+
+.error {
+    font-family: "Montserrat", sans-serif;
+    color: $form-error-color;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 @include desc {

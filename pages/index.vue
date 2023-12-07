@@ -13,6 +13,10 @@
 import Social from "@/components/Social.vue";
 import ContactIcons from "@/components/ContactIcons.vue";
 import ContentMainPage from "@/components/ContentMainPage.vue";
+
+definePageMeta({
+    layout: "main",
+})
 </script>
 
 <style lang="scss">

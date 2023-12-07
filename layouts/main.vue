@@ -8,7 +8,7 @@
         <Navigation @closeMenu="onCloseMenu" />
     </div>
     <slot />
-    <Footer />
+    <!-- <Footer /> -->
 </template>
 
 <script setup>
@@ -17,7 +17,7 @@ import { /* RouterLink, */ useRoute } from "vue-router"
 // import HelloWorld from './components/HelloWorld.vue'
 import Header from "@/components/Header.vue"
 import Navigation from "@/components/Navigation.vue"
-import Footer from "@/components/Footer.vue"
+// import Footer from "@/components/Footer.vue"
 
 const isActiveMenu = ref(false);
 
